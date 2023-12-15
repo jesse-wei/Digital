@@ -25,26 +25,6 @@
         </site>
     </distributionManagement>
 
-    <profiles>
-        <profile>
-            <id>no-git-rev</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>pl.project13.maven</groupId>
-                        <artifactId>git-commit-id-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>get-the-git-infos</id>
-                                <phase>none</phase> <!-- this disables plugin -->
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <reporting>
         <plugins>
             <plugin>
@@ -117,7 +97,6 @@
                         </property>
                         <property>
                             <name>buildnumber</name>
-                            <value>${git.commit.id.describe}</value>
                         </property>
                         <property>
                             <name>buildtime</name>
@@ -138,30 +117,10 @@
                             <mainClass>de.neemann.digital.gui.Main</mainClass>
                         </manifest>
                         <manifestEntries>
-                            <Build-SCM-Revision>${git.commit.id.describe}</Build-SCM-Revision>
                             <Build-Time>${buildTimestamp}</Build-Time>
                             <SplashScreen-Image>icons/splash.png</SplashScreen-Image>
                         </manifestEntries>
                     </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <verbose>false</verbose>
-                    <commitIdGenerationMode>flat</commitIdGenerationMode>
                 </configuration>
             </plugin>
 
@@ -203,7 +162,6 @@
                             <mainClass>de.neemann.digital.gui.Main</mainClass>
                         </manifest>
                         <manifestEntries>
-                            <Build-SCM-Revision>${git.commit.id.describe}</Build-SCM-Revision>
                             <Build-Time>${buildTimestamp}</Build-Time>
                             <SplashScreen-Image>icons/splash.png</SplashScreen-Image>
                         </manifestEntries>
@@ -278,29 +236,6 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.7.1</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
-                <executions>
-                <execution>
-                    <id>enforce-property</id>
-                    <phase>process-resources</phase>
-                    <goals>
-                        <goal>enforce</goal>
-                    </goals>
-                    <configuration>
-                      <rules>
-                        <requireProperty>
-                          <property>git.commit.id.describe</property>
-                          <message>"Project version (git.commit.id.describe) must be specified."</message>
-                        </requireProperty>
-                      </rules>
-                      <fail>true</fail>
-                    </configuration>
-                  </execution>
-                </executions>
-             </plugin>
         </plugins>
     </build>
 
