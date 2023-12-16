@@ -21,8 +21,11 @@ jobs:
       - name: Build JAR with Maven
         run: mvn clean install
 
+      - name: Unzip Digital.zip
+        run: unzip target/Digital.zip -d target
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}
-          path: target/Digital.zip
+          path: target/Digital
